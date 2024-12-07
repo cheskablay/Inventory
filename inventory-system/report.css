@@ -1,0 +1,333 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    overflow: auto;;
+}
+
+html {
+    overflow:hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.nav_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a21d28;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.user_container {
+    display: flex;
+    align-items: center;
+}
+
+.admin_info ul {
+    list-style-type: none;
+    margin-right: 150px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.admin_info ul li {
+    text-align: left;
+}
+
+.user_icon {
+    display: flex;
+    align-items: center;
+}
+
+.user_icon img {
+    height: 30px;
+    margin-left: 5px;
+}
+
+.sidebar_container{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    top: 50px;
+    left: 0;
+    margin-top: 20px;
+}
+
+.sidebar_container ul li {
+    margin: 0;
+    border-bottom: 1px solid;
+}
+
+.sidebar_container ul ul{
+    position: static;
+}
+
+.pro-cli-show {
+    display: none;
+    padding: 0; /* Remove excess padding */
+    margin: 0;
+}
+
+.pro-cli-show.show {
+    display: block;
+}
+
+.sidebar_container ul ul li {
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
+}
+
+.pro-cli-show li {
+    padding: 5px 20px; /* Adjust padding to be more compact */
+    border-bottom: none; /* Optional: remove bottom border if you want a cleaner look */
+}
+
+.pro-cli-show li a {
+    padding: 5px 10px; /* Set a smaller padding for submenu links */
+    color: black;
+    text-decoration: none;
+}
+
+.sidebar_container ul ul li a{
+    padding-left: 40px;
+}
+
+.sidebar_container ul li a {
+    display: block;
+    padding: 15px 30px;
+    width: 100%;
+    color: black;
+    text-decoration: none;
+}
+
+
+.sidebar_container ul li:hover{
+    background-color: #a21d28;
+}
+
+.sidebar_container ul li a:hover{
+    color: white;
+}
+
+.main {
+    margin-left: 200px;
+    margin-top: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(162,29,41,1) 100%);
+    height: 100vh;
+}
+
+.monthly-monitoring-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.monthly-monitoring-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    font-size: 12px;
+    padding: 20px;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+input, select {
+    width: 500px;
+    height: 25px;
+    border: none;
+}
+
+.buttons-container{
+    justify-content: center;
+    align-items: center;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+button#create_report{
+    border-radius: 2px;
+    border: none;
+    max-width: 50px;
+    padding: 2px;
+}
+
+button#save{
+    background-color: #feb927;
+    border-radius: 2px;
+    border: none;
+    padding: 10px;
+}
+
+#insert-file{
+    margin-bottom: 20px;
+}
+
+button#cancel{
+    background-color: #f70303;
+    border-radius: 2px;
+    padding: 10px;
+    border: none;
+}
+
+.display-container{
+    margin-right: 10px;
+}
+
+.display_report{
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px solid black;
+    height: 70vh;
+}
+
+.display_report p{
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.search-bar-container {
+    width: 100%;
+    display: flex;
+    margin: 20px;
+}
+
+.search-bar {
+    width: 100%;
+    display: flex;
+    gap: 10px; /* Adds spacing between elements */
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Distribute space evenly for each fieldset */
+    min-width: 150px; /* Minimum width to prevent shrinking too much */
+    border: none;
+}
+
+#report-search {
+    flex: 2; /* Give search input more space */
+    padding: 5px;
+    margin-top: 18px;
+}
+
+.display-container {
+    margin-right: 10px;
+    height: 100%;
+    
+}
+
+.display_report {
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px solid black;
+    height: 70vh;
+    
+}
+
+.display_report table {
+    height: 100%;
+    border-collapse: collapse; /* Optional: Makes table borders cleaner */
+    overflow: scroll !important; /* Allow scrolling and override global rule */
+}
+
+
+.display_report th,
+.display_report td {
+    padding: 8px; /* Adds some padding for readability */
+    text-align: left; /* Aligns text to the left */
+    border: 1px solid #ddd; /* Optional: Adds light borders for table cells */
+}
+
+.display_report thead {
+    position: sticky; /* Makes the header row sticky */
+    top: 0;
+    background-color: #f1f1f1; /* Adds a background color to the header */
+    z-index: 1; /* Ensures the header stays above the table rows */
+}
+
+.display_report table tr {
+    max-height: 30px; /* Adjust this value as needed */
+}
+
+
+/* Center the time and date */
+.datetime {
+    display: flex;
+    flex-direction: column; /* Stack time on top of date */
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+}
+
+/* Styling for the time */
+#time {
+    font-size: 14px;  /* Make the time larger */
+    font-weight: bold;
+    margin-bottom: 10px;  /* Space between time and date */
+}
+
+#date {
+    font-size: 14px;  /* Slightly smaller for the date */
+    color: gray;  /* You can change the color to fit your design */
+}
+
+.qrcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Horizontally center the QR code */
+    justify-content: center; /* Vertically center the QR code */
+}
+
+.qrcode {
+    margin: 5px 0;
+}
+
+input#qrcode{
+    width: 200px;
+}
+
+#reportsTable tbody tr.selected {
+    background-color: #f2dede;
+}
+
+a {
+    color: white;
+}

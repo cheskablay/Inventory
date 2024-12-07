@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biocare Inventory</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>  
+    <div class="login-container">
+        <div>
+            <form onsubmit="login(event)">
+                <div class="user-img">
+                <img src="images/user.png" id="user">
+                </div>
+                <label for="email"><b>User Account</b></label>
+                <input type="email" id="email" required>
+                <label for="password"><b>Password</b></label>
+                <input type="password" id="password" required>
+                <button type="submit" id="log-in"><b>Log In</b></button>
+            </form>
+            <script>
+                const { ipcRenderer } = require("electron");
+            
+                function login(event) {
+                    event.preventDefault(); // Prevent form submission
+            
+                    // Get email and password values
+                    const email = document.getElementById("email").value;
+                    const password = document.getElementById("password").value;
+            
+                    // Send login credentials to the backend
+                    ipcRenderer.send("login", { email, password });
+                }
+            
+                ipcRenderer.on("login-response", (event, response) => {
+                    if (response.success) {
+                        // Send a message to load landingpage.html
+                        ipcRenderer.send("load-landing-page");
+                    } else {
+                        alert("Invalid email or password.");
+                    }
+                });
+            </script>
+        </div>
+        <div class="login-image">
+            <img src="images/biocare_logo.png">
+        </div>
+    </div>
+    <h1></h1>
+</body>
+
+</html>

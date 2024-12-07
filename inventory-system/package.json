@@ -1,0 +1,27 @@
+{
+  "name": "inventory-system",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.5.0",
+    "@electron-forge/maker-deb": "^7.5.0",
+    "@electron-forge/maker-rpm": "^7.5.0",
+    "@electron-forge/maker-squirrel": "^7.5.0",
+    "@electron-forge/maker-zip": "^7.5.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
+    "@electron-forge/plugin-fuses": "^7.5.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^32.1.2"
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "dependencies": {
+    "electron-rebuild": "^3.2.9",
+    "electron-squirrel-startup": "^1.0.1",
+    "express": "^4.21.1",
+    "sqlite3": "^5.1.7"
+  }
+}

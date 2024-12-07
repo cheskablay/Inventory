@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biocare - Monthly Monitoring</title>
+    <link href="product.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav_container">
+            <div class="logo">
+                <img src="images/biocare_logo.png" alt="Biocare Logo">
+                <p>Biocare</p>
+            </div>
+            <div class="user_container">
+                <div class="admin_info">
+                    <ul>
+                        <li>Admin</li>
+                        <li>User ID</li>
+                    </ul>
+                </div>
+                <div class="user_icon">
+                    <img src="images/user.png" alt="User Icon">
+                    <img src="images/dropdown.png" alt="Dropdown Icon">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar_container">
+        <ul>
+            <li><a href="landingpage.html">Monthly Monitoring</a></li>
+            <li><a href="activestatus.html">Active Status</a></li>
+            <li><a href="report.html">Report</a></li>
+            <li><a href="archive.html">Archive</a></li>
+        </ul>
+
+        <!-- Date and Time Display -->
+        <div class="datetime">
+            <div id="time">00:00 AM/PM</div>
+            <div id="date">DD/MM/YYYY</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Search Bar -->
+        <div class="search-bar-container">
+            <form action="#" class="search-bar">
+                <input type="text" id="search" placeholder="Search">
+            </form>
+        </div>
+
+        <!-- Client Information Form -->
+        <form action="#">
+            <div class="client-info-container">
+                <div class="client-info-wrapper1">
+                    <input type="text" placeholder="Input Field 1">
+                    <input type="text" placeholder="Input Field 2">
+                    <input type="text" placeholder="Input Field 3">
+                    <input type="text" placeholder="Input Field 4">
+                    <input type="text" placeholder="Input Field 5">
+                    <input type="text" placeholder="Input Field 6">
+                </div>
+            </div>
+
+            <!-- Display Report Section -->
+            <div class="display_report">
+                <nav>
+                    <p>Report Table</p>
+                </nav>
+                <table>
+                    <tr>
+                        <td><img src="images/item.png" alt="Item Image"></td>
+                        <td>Item 1</td>
+                        <td>Details</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/item.png" alt="Item Image"></td>
+                        <td>Item 2</td>
+                        <td>Details</td>
+                    </tr>
+                    <tr>
+                        <td><img src="images/item.png" alt="Item Image"></td>
+                        <td>Item 3</td>
+                        <td>Details</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-wrapper">
+                <button type="submit" id="print">Print</button>
+                <button type="reset" id="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript for Date and Time -->
+    <script>
+        function displayDateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const timeString = `${hours % 12 || 12}:${minutes} ${ampm}`;
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const dateString = `${day}/${month}/${year}`;
+
+            document.getElementById('time').innerText = timeString;
+            document.getElementById('date').innerText = dateString;
+        }
+        setInterval(displayDateTime, 1000);
+    </script>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButton = document.querySelector('.pro-cli-btn');
+            const submenu = document.querySelector('.pro-cli-show');
+
+            if (toggleButton && submenu) {
+                toggleButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    submenu.classList.toggle('show');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

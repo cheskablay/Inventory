@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.nav_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a21d28;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.user_container {
+    display: flex;
+    align-items: center;
+}
+
+.admin_info ul {
+    list-style-type: none;
+    margin-right: 150px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.admin_info ul li {
+    text-align: left;
+}
+
+.user_icon {
+    display: flex;
+    align-items: center;
+}
+
+.user_icon img {
+    height: 30px;
+    margin-left: 5px;
+}
+
+.sidebar_container{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    top: 50px;
+    left: 0;
+    margin-top: 20px;
+}
+
+.sidebar_container ul li {
+    margin: 0;
+    border-bottom: 1px solid;
+}
+
+.sidebar_container ul li a {
+    display: block;
+    padding: 15px 30px;
+    width: 100%;
+    color: black;
+    text-decoration: none;
+}
+
+
+.sidebar_container ul li:hover{
+    background-color: #a21d28;
+}
+
+.sidebar_container ul li a:hover{
+    color: white;
+}
+
+.datetime {
+    display: flex;
+    flex-direction: column; /* Stack time on top of date */
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+}
+
+/* Styling for the time */
+#time {
+    font-size: 14px;  /* Make the time larger */
+    font-weight: bold;
+    margin-bottom: 10px;  /* Space between time and date */
+}
+
+#date {
+    font-size: 14px;  /* Slightly smaller for the date */
+    color: gray;  /* You can change the color to fit your design */
+}
+
+.main {
+    margin-top: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(162,29,41,1) 100%);
+    height: 100vh;
+    margin-left: 200px;
+    box-sizing: border-box;
+    width: calc(100% - 200px); /* Subtract sidebar width */
+}
+
+.search-bar-container{
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px;
+}
+
+.search-bar{
+    width: 145px;
+}
+
+.search-bar input{
+    border: none;
+    height: 25px;
+}
+
+.client-info-container{
+    width: 100%;
+    margin-top: 40px;
+}
+
+.client-info-wrapper1 {
+    width: 600px; /* Fixed width to avoid resizing */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Ensures 2 equal columns */
+    grid-template-rows: repeat(3, auto);
+    gap: 10px; /* Adds spacing between input fields */
+    margin-left: 20px;
+}
+
+.client-info-wrapper1 input {
+    width: 100%; /* Input will stretch to fill grid cell */
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.client-info-wrapper2 input{
+    margin-left: 20px;
+    width: 95%;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+input#col2{
+    width: 50%;
+    
+}
+
+input#col3{
+    height: 80px;
+}
+
+.display_report{
+    background-color: #fff;
+    box-sizing: border-box;
+    border: 1px solid black;
+    height: 190px;
+    width: 95%;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.display_report nav p{
+    background-color: #d9d9d9;
+    height: 30px;
+    justify-content: flex-end;
+}
+
+.button-wrapper{
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.button-wrapper button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+button#print{
+    width:65px;
+}
+
+button#cancel{
+    background-color: #f70303;
+}
+
+.sidebar_container ul ul{
+    position: static;
+}
+
+.pro-cli-show {
+    display: none;
+    padding: 0; /* Remove excess padding */
+    margin: 0;
+}
+
+.pro-cli-show.show {
+    display: block;
+}
+
+.sidebar_container ul ul li {
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
+}
+
+.pro-cli-show li {
+    padding: 5px 20px; /* Adjust padding to be more compact */
+    border-bottom: none; /* Optional: remove bottom border if you want a cleaner look */
+}
+
+.pro-cli-show li a {
+    padding: 5px 10px; /* Set a smaller padding for submenu links */
+    color: black;
+    text-decoration: none;
+}
+
+.sidebar_container ul ul li a{
+    padding-left: 40px;
+}

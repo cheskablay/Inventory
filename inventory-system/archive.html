@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    <link href="styles2.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav_container">
+            <div class="logo">
+                <img src="images/user.png">
+                <p>Biocare</p>
+            </div>
+            <div class="user_container">
+                <div class="admin_info">
+                    <ul>
+                        <li>Admin</li>
+                        <li>User ID</li>
+                    </ul>
+                </div>
+                <div class="user_icon">
+                    <a href="index.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar_container">
+        <ul>
+            <li>
+                <a href="landingpage.html">
+                    <span>Monthly Monitoring</span>
+                </a>
+            </li>
+            <li>
+                <a href="activestatus.html">
+                    <span>Active Status</span>
+                </a>
+            </li>
+            <li>
+                <a href="report.html">
+                    <span>Report</span>
+                </a>
+            </li>
+            <li>
+                <a href="archive.html">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+        <div id="date-time"></div>
+
+        <div class="datetime">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+
+        <script>
+            function displayDateTime() {
+                const now = new Date();
+
+                // Format time
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const timeString = `${hours}:${minutes}:${seconds}`;
+
+                // Format date
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const dateString = `${year}-${month}-${day}`;
+
+                // Update the DOM
+                document.getElementById('time').innerText = timeString.toLocaleString();
+                document.getElementById('date').innerText = dateString.toLocaleString();
+            }
+            setInterval(displayDateTime, 1000);
+        </script>
+    </div>
+
+    <div class="main">
+        <div class="monthly-monitoring-container">
+            <form>
+                <div class="monthly-monitoring-wrapper">
+                    <div class="input-container">
+                        <label for="dr_no">D.R. No</label>
+                        <input type="text" id="dr_no">
+                    </div>
+                    <div class="input-container">
+                        <label for="dr-date">D.R. Date</label>
+                        <input type="text" id="dr_date">
+                    </div>
+                    <div class="input-container">
+                        <label for="am_code">A.M. Code</label>
+                        <input type="text" id="am_code">
+                    </div>
+                    <div class="input-container">
+                        <label for="item">Item</label>
+                        <input type="text" id="item">
+                    </div>
+                    <div class="input-container">
+                        <label for="item_name">Item Name</label>
+                        <input type="text" id="item_name">
+                    </div>
+                    <div class="input-container">
+                        <label for="cust_name">Customer Name</label>
+                        <input type="text" id="cust_name">
+                    </div>
+                    <div class="input-container">
+                        <label for="ser_no">Serial No</label>
+                        <input type="text" id="ser_no">
+                    </div>
+                    <div class="input-container">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="buttons-container">
+                    <div class="input-container" id="insert-file">
+                        <label for="upload-image">Insert Picture Item</label>
+                        <input type="file" id="upload-image">
+                    </div>
+                    <div class="qrcode-container">
+                        <div class="sqrcode"></div>
+                        <div class="qrcode"></div>
+                        <input type="text" id="qrcode" placeholder="Paste a URL or enter  
+                                text, then press enter" onchange="generateQr()" />
+                    </div>
+                    <div class="button-wrapper">
+                        <button type="submit" id="create_report">Retrieve</button>
+                        <button type="reset" id="cancel">Delete</button>
+                        
+                    </div>
+                </div>
+            </form>
+            <div class="display-container">
+                <div class="search-bar-container">
+                    <form action="#" class="search-bar">
+                        <input type="text" id="search" placeholder="search">
+                    </form>
+                </div>
+                <div class="display_report">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>D.R. No</th>
+                                <th>D.R. Date</th>
+                                <th>A.M. Code</th>
+                                <th>Item</th>
+                                <th>Item Name</th>
+                                <th>Customer Name</th>
+                                <th>Serial No</th>
+                                <th>Status</th>
+                                <th>Picture</th>
+                                <th>Action</th> <!-- New column for Delete button -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Archived rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+
+                const { ipcRenderer } = require('electron');
+
+                // Load archive data
+                function loadArchiveTable() {
+                    ipcRenderer.send('get-archive');
+
+                    ipcRenderer.once('get-archive-response', (event, response) => {
+                        const tableBody = document.querySelector('.display_report tbody');
+
+                        // Clear existing rows
+                        tableBody.innerHTML = '';
+
+                        if (response.success) {
+                            // Populate the table with archive data
+                            response.data.forEach(row => {
+                                const newRow = tableBody.insertRow();
+
+                                newRow.insertCell(0).innerText = row.dr_no;
+                                newRow.insertCell(1).innerText = row.dr_date;
+                                newRow.insertCell(2).innerText = row.am_code;
+                                newRow.insertCell(3).innerText = row.item;
+                                newRow.insertCell(4).innerText = row.item_name;
+                                newRow.insertCell(5).innerText = row.cust_name;
+                                newRow.insertCell(6).innerText = row.ser_no;
+                                newRow.insertCell(7).innerText = row.status;
+
+                                const imgCell = newRow.insertCell(8);
+                                if (row.picture) {
+                                    const img = document.createElement('img');
+                                    img.src = URL.createObjectURL(new Blob([row.picture]));
+                                    img.width = 50;
+                                    img.height = 50;
+                                    img.alt = 'Uploaded Picture';
+                                    imgCell.appendChild(img);
+                                } else {
+                                    imgCell.innerText = 'No Image';
+                                }
+
+                                const actionCell = newRow.insertCell(9); // Action column
+                                const deleteButton = document.createElement('button');
+                                deleteButton.innerText = 'Delete';
+                                deleteButton.addEventListener('click', () => deleteArchiveRow(row.id, newRow));
+                                actionCell.appendChild(deleteButton);
+                            });
+                        } else {
+                            alert('Failed to retrieve archive data.');
+                        }
+                    });
+                }
+
+                // Delete a row from the archive table
+                function deleteArchiveRow(id, rowElement) {
+                    const confirmDelete = confirm('Are you sure you want to delete this row?');
+                    if (!confirmDelete) return;
+
+                    ipcRenderer.send('delete-archive-row', id);
+
+                    ipcRenderer.once('delete-archive-row-response', (event, response) => {
+                        if (response.success) {
+                            alert('Row deleted successfully.');
+                            rowElement.remove(); // Remove the row from the table
+                        } else {
+                            alert('Failed to delete the row.');
+                        }
+                    });
+                }
+
+                // Attach search functionality
+                function attachSearchFunctionality() {
+                    const searchInput = document.getElementById('search');
+                    searchInput.addEventListener('input', (event) => {
+                        const searchValue = event.target.value.toLowerCase();
+                        const tableRows = document.querySelectorAll('.display_report tbody tr');
+
+                        tableRows.forEach(row => {
+                            const rowText = Array.from(row.cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+                            if (rowText.includes(searchValue)) {
+                                row.style.display = ''; // Show row
+                            } else {
+                                row.style.display = 'none'; // Hide row
+                            }
+                        });
+                    });
+                }
+
+                // Initialize when the page loads
+                document.addEventListener('DOMContentLoaded', () => {
+                    loadArchiveTable(); // Load data
+                    attachSearchFunctionality(); // Attach search functionality
+                });
+            </script>
+        </div>
+    </div>
+
+</body>
+
+</html>

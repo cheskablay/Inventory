@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="clientcategorystyles.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav_container">
+            <div class="logo">
+                <img src="images/user.png">
+                <p>Biocare</p>
+            </div>
+            <div class="user_container">
+                <div class="admin_info">
+                    <ul>
+                        <li>Admin</li>
+                        <li>User ID</li>
+                    </ul>
+                </div>
+                <div class="user_icon">
+                    <img src="images/user.png">
+                    <img src="images/dropdown.png">
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar_container">
+        <ul>
+            <li>
+                <a href="landingpage.html">
+                    <span>Monthly Monitoring</span>
+                </a>
+            </li>
+            <li>
+                <a href="activestatus.html">
+                    <span>Active Status</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="pro-cli-btn">
+                    <span>Product and Clients</span>
+                    <span class="fas fa-caret-down"></span>
+                </a>
+                <ul class="pro-cli-show">
+                    <li>
+                        <a href="product.html">
+                            <div>Products</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="client.html">
+                            <div>Clients</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="clientcategory.html">
+                    <span>Client Category</span>
+                </a>
+            </li>
+            <li>
+                <a href="report.html">
+                    <span>Report</span>
+                </a>
+            </li>
+            <li>
+                <a href="archive.html">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+        <div id="date-time"></div>
+
+        <div class="datetime">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+
+        <script>
+            function displayDateTime() {
+                const now = new Date();
+
+                // Format time
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const timeString = `${hours}:${minutes}:${seconds}`;
+
+                // Format date
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const dateString = `${year}-${month}-${day}`;
+
+                // Update the DOM
+                document.getElementById('time').innerText = timeString.toLocaleString();
+                document.getElementById('date').innerText = dateString.toLocaleString();
+            }
+            setInterval(displayDateTime, 1000);
+        </script>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButton = document.querySelector('.pro-cli-btn');
+            const submenu = document.querySelector('.pro-cli-show');
+    
+            if (toggleButton && submenu) { // Check if elements are found
+                toggleButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    console.log("Button clicked"); // Debugging line
+                    submenu.classList.toggle('show'); // Toggle visibility
+                    console.log("Submenu class toggled"); // Debugging line
+                });
+            } else {
+                console.log("Toggle button or submenu not found"); // Debugging line if elements are not found
+            }
+        });
+    </script>
+    <div class="main">
+        <div class="search-bar-container">
+            <form action="#" class="search-bar">
+                <input type="text" id="search" placeholder="search">
+            </form>
+        </div>
+        <form action="#">
+            <div class="client-info-container">
+                <div class="client-info-wrapper1">
+                    <input type="text" id="col1">
+                    <input type="text" id="col2">
+                    <input type="text" id="col1">
+                    <input type="text" id="col2">
+                    <input type="text" id="col1">
+                    <input type="text" id="col2">
+                </div>
+                <div class="client-info-wrapper2">
+                    <input type="text">
+                    <input type="text" id="col3">
+                </div>
+            </div>
+            <div class="display_report">
+                <nav>
+                    <p>.</p>
+                </nav>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident sit quam tempore itaque nemo,
+                    inventore, vero facilis quis omnis optio quisquam voluptatum ipsa obcaecati suscipit culpa sed
+                    neque! Aut, reprehenderit.</p>
+            </div>
+            <div class="button-wrapper">
+            <button type="submit" value="Submit" id="print">Print</button>
+            <button type="reset" value="Reset" id="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

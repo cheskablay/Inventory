@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Monitoring</title>
+    <link href="styles2.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav_container">
+            <div class="logo">
+                <img src="images/user.png" alt="User Icon">
+                <p>Biocare</p>
+            </div>
+            <div class="user_container">
+                <div class="admin_info">
+                    <ul>
+                        <li>Admin</li>
+                        <li>User ID</li>
+                    </ul>
+                </div>
+                <div class="user_icon">
+                    <a href="index.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Container -->
+    <div class="sidebar_container">
+        <ul>
+            <li>
+                <a href="landingpage.html">
+                    <span>Monthly Monitoring</span>
+                </a>
+            </li>
+            <li>
+                <a href="activestatus.html">
+                    <span>Active Status</span>
+                </a>
+            </li>
+            <li>
+                <a href="report.html">
+                    <span>Report</span>
+                </a>
+            </li>
+            <li>
+                <a href="archive.html">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+        <div id="date-time"></div>
+
+        <div class="datetime">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="monthly-monitoring-container">
+            <form>
+                <div class="monthly-monitoring-wrapper">
+                    <div class="input-container">
+                        <label for="dr_no">D.R. No</label>
+                        <input type="text" id="dr_no">
+                    </div>
+                    <div class="input-container">
+                        <label for="dr_date">D.R. Date</label>
+                        <input type="date" id="dr_date">
+                    </div>
+                    <div class="input-container">
+                        <label for="am_code">A.M. Code</label>
+                        <input type="text" id="am_code">
+                    </div>
+                    <div class="input-container">
+                        <label for="item">Item</label>
+                        <input type="text" id="item">
+                    </div>
+                    <div class="input-container">
+                        <label for="item_name">Item Name</label>
+                        <input type="text" id="item_name">
+                    </div>
+                    <div class="input-container">
+                        <label for="cust_name">Customer Name</label>
+                        <input type="text" id="cust_name">
+                    </div>
+                    <div class="input-container">
+                        <label for="ser_no">Serial No</label>
+                        <input type="text" id="ser_no">
+                    </div>
+                    <div class="input-container">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="buttons-container">
+                    <div class="input-container" id="insert-file">
+                        <label for="upload-image">Insert Picture Item</label>
+                        <input type="file" id="upload-image" accept="image/*">
+                    </div>
+                    <div class="button-wrapper">
+                        <button id="create_report">Create Report</button>
+                        <button type="button" id="save">Save</button>
+                        <button type="button" id="cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <div class="display-container">
+                <div class="search-bar-container">
+                    <form action="#" class="search-bar">
+                        <input type="search" id="search" placeholder="Search">
+                    </form>
+                </div>
+                <div class="display-wrapper">
+                    <div class="display_report">
+                        <table id="reportTable" border="1">
+                            <thead>
+                                <tr>
+                                    <th>D.R. No</th>
+                                    <th>D.R. Date</th>
+                                    <th>A.M. Code</th>
+                                    <th>Item</th>
+                                    <th>Item Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Serial No</th>
+                                    <th>Status</th>
+                                    <th>Picture</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data rows will be inserted dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require("electron");
+
+        // Save data to the database
+        document.getElementById('save').addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Get input values
+            const data = {
+                dr_no: document.getElementById('dr_no').value.trim(),
+                dr_date: document.getElementById('dr_date').value,
+                am_code: document.getElementById('am_code').value.trim(),
+                item: document.getElementById('item').value.trim(),
+                item_name: document.getElementById('item_name').value.trim(),
+                cust_name: document.getElementById('cust_name').value.trim(),
+                ser_no: document.getElementById('ser_no').value.trim(),
+                status: document.getElementById('status').value.trim(),
+                picture: document.getElementById('upload-image').files[0] || null,
+            };
+
+            // Send data to the main process
+            ipcRenderer.send("save-data", data);
+
+            // Handle response
+            ipcRenderer.on("save-data-response", (event, response) => {
+                if (response.success) {
+                    alert("Data saved successfully!");
+                    loadTableData(); // Refresh the table
+                    document.querySelector('form').reset();
+                } else {
+                    alert("Failed to save data.");
+                }
+            });
+        });
+
+        // Load table data from the database
+        function loadTableData() {
+            ipcRenderer.send("get-data");
+
+            ipcRenderer.on("get-data-response", (event, response) => {
+                if (response.success) {
+                    const tableBody = document.querySelector('#reportTable tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+
+                    response.data.forEach(row => {
+                        const newRow = tableBody.insertRow();
+
+                        newRow.insertCell(0).innerText = row.dr_no;
+                        newRow.insertCell(1).innerText = row.dr_date;
+                        newRow.insertCell(2).innerText = row.am_code;
+                        newRow.insertCell(3).innerText = row.item;
+                        newRow.insertCell(4).innerText = row.item_name;
+                        newRow.insertCell(5).innerText = row.cust_name;
+                        newRow.insertCell(6).innerText = row.ser_no;
+                        newRow.insertCell(7).innerText = row.status;
+
+                        const imgCell = newRow.insertCell(8);
+                        if (row.picture) {
+                            const img = document.createElement('img');
+                            img.src = URL.createObjectURL(new Blob([row.picture]));
+                            img.width = 50;
+                            img.height = 50;
+                            img.alt = "Uploaded Picture";
+                            imgCell.appendChild(img);
+                        } else {
+                            imgCell.innerText = 'No Image';
+                        }
+                    });
+                } else {
+                    alert("Failed to load data.");
+                }
+            });
+        }
+
+        // Load data when the page is ready
+        document.addEventListener("DOMContentLoaded", loadTableData);
+
+        // Clear the table and optionally delete from the database
+        document.getElementById('cancel').addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Confirm before deleting
+            const confirmDelete = confirm("Are you sure you want to clear all entries?");
+            if (!confirmDelete) return;
+
+            // Clear the table
+            const tableBody = document.querySelector('#reportTable tbody');
+            tableBody.innerHTML = ''; // Remove all rows
+
+            // Clear the database
+            ipcRenderer.send("clear-database");
+
+            ipcRenderer.on("clear-database-response", (event, response) => {
+                if (response.success) {
+                    alert("All data cleared successfully!");
+                } else {
+                    alert("Failed to clear data.");
+                }
+            });
+        });
+
+        // Save report to the reports database
+        // Save report to the reports database
+        document.getElementById('create_report').addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Send a request to retrieve data from the monitoring table
+            ipcRenderer.send('get-monitoring-data'); // New event to fetch data from monitoring table
+
+            ipcRenderer.once('get-monitoring-data-response', (event, response) => {
+                if (response.success) {
+                    // Send each row to the reports table
+                    response.data.forEach(row => {
+                        ipcRenderer.send('save-report', row);
+                    });
+
+                    // Notify the user
+                    ipcRenderer.once('save-report-response', (event, saveResponse) => {
+                        if (saveResponse.success) {
+                            alert('Reports successfully saved to the reports database!');
+                        } else {
+                            alert('Failed to save some reports.');
+                        }
+                    });
+                } else {
+                    alert('Failed to retrieve data from the monitoring table.');
+                }
+            });
+        });
+
+        // Load data when the page is ready
+        document.addEventListener("DOMContentLoaded", () => {
+            loadTableData();
+
+            // Attach search functionality
+            document.getElementById('search').addEventListener('input', (event) => {
+                const searchValue = event.target.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#reportTable tbody tr');
+
+                tableRows.forEach(row => {
+                    const rowText = Array.from(row.cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+                    if (rowText.includes(searchValue)) {
+                        row.style.display = ''; // Show row
+                    } else {
+                        row.style.display = 'none'; // Hide row
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
